@@ -14,8 +14,11 @@
   position: relative;
 }
 .container .canvas .rectangle{
-  position: absolute;
-   background-color: greenyellow;
-   height:100px;
-   width:130px;
+  position: absolute !important;
+  
+}
+.result{
+  margin-left: 60vw;
+  margin-top: -40vh;
+  z-index: 1024;
 }

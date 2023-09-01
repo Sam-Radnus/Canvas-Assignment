@@ -1,47 +1,113 @@
 import React , {useState,useEffect}from 'react'
 import "./../App.css";
+import Rectangle from './Rectangle';
 const Canva = () => {
     const [x,setX]=useState(0);
     const [y,setY]=useState(0);
+    const [show,setShow]=useState(false);
+    const [selected,setSelected]=useState(-1);
     const [moving,setMoving]=useState(false);
     const [rects,setRects]=useState([]);
-    const colors=["red","blue","green","black","pink"];
+    const colors=["red","blue","green","violet","pink","cyan","magenta","darkgreen","orange","tomato"];
+    function randomIntFromInterval(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+      }
+    const rectSelected=(id)=>{
+        console.log(id);
+        setSelected((prev)=>{
+          return prev===id?-1:id;
+        });
+    }
+    useEffect(()=>{
+      console.log(selected);
+    },[selected])
+    const addRect=()=>{
+        const height=randomIntFromInterval(10,200);
+        const width=randomIntFromInterval(10,200);
+        const xCord=randomIntFromInterval(0,200);
+        const yCord=randomIntFromInterval(0,150);
+        const color=colors[randomIntFromInterval(0,colors.length)];
+        const newRect={
+            id:rects.length,
+            height:height,
+            width:width,
+            color:color,
+            x:xCord,
+            y:yCord,
+        }
+        console.log(newRect);
+        setRects((prevState)=>{
+         const newState=[...prevState];
+         newState.push(newRect);
+         return newState;
+        })
+    
+    }
+    const handleMouseMove=(e)=>{
+      if(!moving) return;
+      if(selected===-1) return;
+      const newRects = [...rects];
+      setX(Math.max(0, Math.min(e.clientX - 170, 650-154-newRects[selected].width)));
+      setY(Math.max(0, Math.min(e.clientY - 200, 442-146-newRects[selected].height)));
+      //console.log(e.clientX);
+      //console.log(e.clientY);
+     
+      //console.log(newRects[selected]);
+      newRects[selected] = {
+          ...newRects[selected],
+          x: Math.max(0, Math.min(e.clientX - 170, 650-154-newRects[selected].width)),
+          y: Math.max(0, Math.min(e.clientY - 200, 442-146-newRects[selected].height)),
+      };
+     // console.log(newRects[selected]);
+      setRects(newRects);
+    }
   return (
+
     <div className="container">
-       <button>Create Rectangle</button>
-       <button>Show Position</button>
+       <button onClick={()=>{
+        addRect();
+       }} >Create Rectangle</button>
+       <button onClick={()=>{
+        setShow((prev)=>{
+          return !prev;
+        })
+       }}>{show?"hide":'show'} Position</button>
        <div 
-         
+          onClick={(e)=>{
+            console.log(e.target.className);
+            if(e.target.className!=="rectangle"){
+              setSelected(-1);
+              setMoving(false);
+            }
+          }}
           onMouseMove={(e)=>{
-            if(!moving) return;
-           // console.log(e.clientX);
-           // console.log(e.clientY);
-            setX(e.clientX-150);
-            setY(e.clientY-200);
+            if(selected===-1){
+              return ;
+            }
+            handleMouseMove(e);
           }}
            onMouseDown={(e)=>{
-            e.preventDefault();
             setMoving((curr)=>{
                 return !curr;
             });
-           // console.log("Mouse:"+e.clientY-150);
-           // console.log("Mouse:"+e.clientY-200);
-            setX(Math.max(0,Math.min(e.clientX-170,370)));
-            setY(Math.max(0,Math.min(e.clientY-200,200)));
-          
+            console.log(selected)
+
            }} 
-       className="canvas">
-          <div className="rectangle"
-            style={{top:y+'px',left:x+'px'}}
-          >
-          
-          </div>
-          {rects.map((rect)=>{
-            return <div className="rectangle"
-            style={{top:rect.y+'px',left:rect.x+'px'}}
-          >
-          
-          </div>
+          className="canvas">
+    
+          {rects.map((rect,index)=>{
+            return <Rectangle id={index} show={show} rectSelected={rectSelected} selected={selected} height={rect.height} width={rect.width} color={rect.color} top={rect.y} left={rect.x}/>
+          })}
+       </div>
+       <div className="result">
+       {show &&  rects.map((rect,index)=>{
+           return <p>
+
+              <span>id:{rect.id}</span>
+              <br/>
+              <span>x:{rect.x}</span>
+              <span>y:{rect.y}</span>
+            </p>
           })}
        </div>
     </div>
