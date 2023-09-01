@@ -6,7 +6,7 @@ This is a simple React project that demonstrates the creation of rectangles on a
 
 - [Features](#features)
 - [Getting Started](#getting-started)
-- [Usage](#usage)
+
 
 ## Features
 
