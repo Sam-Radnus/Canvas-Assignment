@@ -64,14 +64,16 @@ const Canva = () => {
   return (
 
     <div className="container">
-       <button onClick={()=>{
+      <div className="btn-wrapper">
+       <button className="btn" onClick={()=>{
         addRect();
        }} >Create Rectangle</button>
-       <button onClick={()=>{
+       <button className="btn" onClick={()=>{
         setShow((prev)=>{
           return !prev;
         })
        }}>{show?"hide":'show'} Position</button>
+       </div>
        <div 
           onClick={(e)=>{
             console.log(e.target.className);
@@ -99,17 +101,19 @@ const Canva = () => {
             return <Rectangle id={index} show={show} rectSelected={rectSelected} selected={selected} height={rect.height} width={rect.width} color={rect.color} top={rect.y} left={rect.x}/>
           })}
        </div>
-       <div className="result">
-       {show &&  rects.map((rect,index)=>{
-           return <p>
+      {show && <div className="result">
+        <ul>
+       {  rects.map((rect,index)=>{
+           return <li>
 
-              <span>id:{rect.id}</span>
+              <b style={{color:rect.color}}>Rectangle No:{rect.id}</b>
               <br/>
-              <span>x:{rect.x}</span>
-              <span>y:{rect.y}</span>
-            </p>
+              <b>coordinates:({rect.x},{rect.y})</b>
+          
+            </li>
           })}
-       </div>
+          </ul>
+       </div> }
     </div>
   )
 }

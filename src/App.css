@@ -2,8 +2,8 @@
   margin-top: 100px;
   margin-left:100px;
   background-color: rgb(206, 186, 186);
-  height:500px;
-  width:700px;
+  height:420px;
+  width:604px;
 }
 .container .canvas{
   height:300px;
@@ -17,8 +17,24 @@
   position: absolute !important;
   
 }
+.container .btn-wrapper{
+  margin-left: 12vw;
+  padding-top:10px;
+  display: flex;
+  gap:10px;
+}
+.container .btn{
+  background-color: black;
+  border:none;
+  height:30px;
+  cursor: pointer;
+  border-radius: 10px;
+  color:white;
+}
 .result{
   margin-left: 60vw;
   margin-top: -40vh;
   z-index: 1024;
+  width:300px;
+  border:solid;
 }

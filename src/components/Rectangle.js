@@ -16,7 +16,7 @@ const Rectangle = ({ selected,id,show, height, width, top, left, color, rectSele
           top: top + 'px',
           left: left + 'px',
           backgroundColor: color,
-          zIndex:`${selected===id?'999':'50'}`,
+          zIndex:`${selected===id?'999':50+id}`,
         }}
       >
        {show?id:''}
